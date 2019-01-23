@@ -8,6 +8,8 @@
 </head>
 <body>
 <h3 align="center">SMS Application</h3>
+<font color="green">${successMsg}</font>
+<font color="red">${errorMsg}</font>
 <form action="${pageContext.request.contextPath}/sendSms"> 
 <table>
 <tr>
