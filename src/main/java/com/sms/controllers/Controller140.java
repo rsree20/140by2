@@ -1,6 +1,7 @@
 package com.sms.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.sms.pojo.ResponseMessage;
 import com.sms.pojo.SmsRequest;
 import com.sms.pojo.SmsResponse;
 import com.sms.pojo.UserAccount;
@@ -49,6 +51,24 @@ public class Controller140 {
 		
 		SmsResponse response = gson.fromJson(res, SmsResponse.class);
 
+		List<ResponseMessage> messageData = response.getMessageData();
+
+
+		//Extra logic
+		String[] mobileNumbers = mbl.split(",");//[9704599205,9545772676]
+		List<String> mobileList = new ArrayList(Arrays.asList(mobileNumbers));
+	
+		for (ResponseMessage message : messageData) {
+			if(mobileList.contains(message.getNumber())) {
+				mobileList.remove(message.getNumber());
+			}
+		}
+
+		if(!mobileList.isEmpty())
+			model.addAttribute("mobileFails", mobileList);
+
+		//Extra logic
+		
 		System.out.println(response.getErrorCode());
 		System.out.println(response.getErrorMessage());
 		
@@ -72,10 +92,18 @@ public class Controller140 {
 		account.setSenderId("SMSTST");
 
 		List<UserMessages> messageList = new ArrayList<UserMessages>();
-		UserMessages message = new UserMessages();
-		message.setNumber(mbl);
-		message.setText(msg);
-		messageList.add(message);
+		
+		String[] mobileNumberArray = mbl.split(",");//[9704599205,9545772676]
+		
+		for (String mobileNumber : mobileNumberArray) {
+			
+			System.out.println(mobileNumber);
+			UserMessages message = new UserMessages();
+			message.setNumber(mobileNumber);//9704599205,9545772676
+			message.setText(msg);
+			
+			messageList.add(message);
+		}
 
 		smsBodyRequest.setAccount(account);
 		smsBodyRequest.setMessages(messageList);
