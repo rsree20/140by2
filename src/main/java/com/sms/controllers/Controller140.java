@@ -55,7 +55,7 @@ public class Controller140 {
 
 
 		//Extra logic
-		String[] mobileNumbers = mbl.split(",");//[9704599205,9545772676]
+		/*String[] mobileNumbers = mbl.split(",");//[9704599205,9545772676]
 		List<String> mobileList = new ArrayList(Arrays.asList(mobileNumbers));
 	
 		for (ResponseMessage message : messageData) {
@@ -65,7 +65,7 @@ public class Controller140 {
 		}
 
 		if(!mobileList.isEmpty())
-			model.addAttribute("mobileFails", mobileList);
+			model.addAttribute("mobileFails", mobileList);*/
 
 		//Extra logic
 		
